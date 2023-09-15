@@ -15,15 +15,43 @@
  */
 async function onTrack(event, settings) {
   // Learn more at https://documentation.freshpaint.io/developer-docs/freshpaint-sdk-reference#track
-  const endpoint = ''; // replace with your endpoint
+  /**
+   * Impact Radius event parameters
+   * {
+   *   'CampaignId': '1000'
+   *   'EventTypeId': '9876'
+   *   'EventDate': 'NOW'
+   *   'ClickId': 'QiiWXOVnrQ3SQHl24jQjyxBGUkmzfJ3i1VHrWM0'
+   *   'CustomerId': 'BCZ2WVSH674563PDPYOTM3AXDQ'
+   *   'CurrencyCode': 'USD'
+   *   'OrderId': 'O1234567'
+   *   'OrderDiscount': '15.00'
+   *   'OrderPromoCode': '15BUCKSOFF'
+   *   'ItemSku1': '1ABC2345'
+   *   'ItemName1': 'Product Name 1'
+   *   'ItemCategory1': 'Hardware'
+   *   'ItemQuantity1': '2'
+   *   'ItemSubTotal': '28.00'
+   *   'ItemSku2': '9ZXY7654'
+   *   'ItemName2': 'Product Name 2'
+   *   'ItemCategory2': 'Gardening'
+   *   'ItemQuantity2': '3'
+   *   'ItemSubTotal': '99.00'
+   * }
+   */
+
+  const endpoint = `https://api.impact.com/Advertisers/${settings.AccountSID}/Conversions`;
 
   await fetch(endpoint, {
     method: 'POST',
     headers: {
-      Authorization: `Basic ${btoa(settings.apiKey + ':')}`,
-      'Content-Type': 'application/json'
+      Accept: 'application/json',
+      Authorization: `Basic ${btoa(
+        `${settings.accountSID}:${settings.authToken}`
+      )}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify(event)
+    body: JSON.stringify(event),
   });
 }
 

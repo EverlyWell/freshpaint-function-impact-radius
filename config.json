@@ -2,11 +2,21 @@
   "supportsTrack": true,
   "supportsCohorts": false,
   "supportsBackfill": false,
-  "configFields": [{
-    "key": "apiKey",
-    "name": "API Key ",
-    "sensitive": true,
-    "required": true,
-    "type": "string"
-  }]
+  "configName": "Impact Radius",
+  "configFields": [
+    {
+      "key": "accountSID",
+      "name": "AccountSID",
+      "sensitive": true,
+      "required": true,
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "name": "Auth Token",
+      "sensitive": true,
+      "required": true,
+      "type": "string"
+    }
+  ]
 }
