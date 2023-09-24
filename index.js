@@ -42,6 +42,39 @@ async function onTrack(event, settings) {
 
   const endpoint = `https://api.impact.com/Advertisers/${settings.AccountSID}/Conversions`;
 
+  const campaignHashMap = {
+    Conversion: {
+      eventName: 'trackConversion',
+      eventTypeId: 35345,
+    },
+  };
+
+  const products = event.products;
+  const items = [];
+  for (let i = 0; i < products.length; i++) {
+    items.push({
+      category: products[i].variant,
+      quantity: products[i].quantity,
+      sku: products[i].id,
+      subTotal: products[i].subTotal,
+      name: products[i].name,
+    });
+  }
+
+  const eventData = {
+    // 'CampaignId': '1000'
+    EventTypeId: campaignHashMap[event.event].eventTypeId,
+    //  'EventDate': 'NOW'
+    //  'ClickId': 'QiiWXOVnrQ3SQHl24jQjyxBGUkmzfJ3i1VHrWM0'
+    CustomerEmail: event.orderEmail,
+    CustomerId: event.userId,
+    CurrencyCode: 'USD',
+    OrderId: event.orderId,
+    OrderDiscount: event.discountAmount,
+    OrderPromoCode: event.promoCode,
+    items,
+  };
+
   await fetch(endpoint, {
     method: 'POST',
     headers: {
@@ -51,7 +84,7 @@ async function onTrack(event, settings) {
       )}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: JSON.stringify(event),
+    body: JSON.stringify(eventData),
   });
 }
 
