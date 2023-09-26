@@ -50,29 +50,29 @@ async function onTrack(event, settings) {
   };
 
   const products = event.products;
-  const items = [];
+  let items = {};
   for (let i = 0; i < products.length; i++) {
-    items.push({
-      category: products[i].variant,
-      quantity: products[i].quantity,
-      sku: products[i].id,
-      subTotal: products[i].subTotal,
-      name: products[i].name,
-    });
+    items = {
+      ...items,
+      [`ItemCategory${i + 1}`]: products[i].variant,
+      [`ItemQuantity${i + 1}`]: products[i].quantity,
+      [`ItemSku${i + 1}`]: products[i].id,
+      [`ItemPrice${i + 1}`]: products[i].subTotal,
+      [`ItemName${i + 1}`]: products[i].name,
+    };
   }
 
   const eventData = {
-    // 'CampaignId': '1000'
+    CampaignId: 18412,
     EventTypeId: campaignHashMap[event.event].eventTypeId,
-    //  'EventDate': 'NOW'
-    //  'ClickId': 'QiiWXOVnrQ3SQHl24jQjyxBGUkmzfJ3i1VHrWM0'
+    EventDate: new Date().toISOString(),
     CustomerEmail: event.orderEmail,
     CustomerId: event.userId,
     CurrencyCode: 'USD',
     OrderId: event.orderId,
     OrderDiscount: event.discountAmount,
     OrderPromoCode: event.promoCode,
-    items,
+    ...items,
   };
 
   await fetch(endpoint, {
